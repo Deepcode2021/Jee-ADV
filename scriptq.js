@@ -155,7 +155,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
  // Array of input field IDs
   // IDs of input fields to watch
-const fields = ['x1', 'x2', 'y', 'z', 'p', 'e'];
+
+// const n1 = document.getElementById('n1');
+// const n2 = document.getElementById('n2');
+// const n3 = document.getElementById('n3');
+// const n4 = document.getElementById('n4');
+// const N1 = str(n1 + n2 + n3 + n4)
+// const m1 = document.getElementById('m1');
+// const m2 = document.getElementById('m2');
+// const m3 = document.getElementById('m3');
+// const m4 = document.getElementById('m4');
+
+// const N = document.getElementById('valn')
+// N.textContent = N1 ;
+const fields = ['x1', 'x2', 'y', 'z', 'p', 'nq','nqq','nqqq','nqqqq','mq','mqq','mqqq','mqqqq',];
 
 // Load saved values into inputs and value bar
 window.onload = () => {
