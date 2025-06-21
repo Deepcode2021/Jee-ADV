@@ -241,3 +241,27 @@
             font-size: 1.5rem;
             text-align: center;
         }
+
+ @font-face {
+            font-family: part;
+            src: url(./font/Major_Mono_Display/MajorMonoDisplay-Regular.ttf);
+        }
+ /* Styles for the glass overlay */
+        .glass-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            font-family:part ;
+            background-color: rgba(0, 0, 0, 0.3); /* Semi-transparent black */
+            backdrop-filter: blur(28px); /* Blur effect */
+            -webkit-backdrop-filter: blur(28px); /* Safari support */
+            z-index: 1000; /* Ensure it's on top of other content */
+            display: flex; /* Use flexbox to center content */
+            justify-content: center;
+            align-items: center;
+            color: white; /* Text color for any content inside the overlay */
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
