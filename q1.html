@@ -4,9 +4,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <meta name="description" content=" Want to see my JEE ADV Score?">
-  
-    <title>Part - 1 THE OG Chem</title>
+    <title>Q</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel="stylesheet" href="./style/styleq.css">
 </head>
@@ -27,7 +25,7 @@
 
             <div class="card-content">
 
-                <p class="par" id="par">The IUPAC Name Of this Compound is </p>
+                <p class="par" id="par">The IUPAC Name Of this Compound is</p>
 
                 <div class="form-container">
                     <div class="input-group">
@@ -160,7 +158,7 @@
         <div class="card">
             
             <div class="card-content">
-               <i> <p class="par" id="par">You Have Come to the End of this Part, This is Short But this was just a warmup guys Oragnic was EASY! Or is it. </p><br>
+               <i> <p class="par" id="par">You Have Come to End of this Part, This is Short But this was just a warmup guys Oragnic was EASY! Or is it. Will Be back SOON! </p><br>
                 </i>
 
 
@@ -179,8 +177,9 @@
 
             </div><br>
         </div><br>
-        <p>All Rights reserved to ME @(Deep) 2025</p><br>
         
+        <p class="part"> ALL Rigths Reserverd To ME! Deep@k</p>
+        <p class="part">2025</p><br>
     </div>
     <br>
     <img id="achievementPopup" src="" alt="Achievement" class="achievementPopup">
@@ -188,7 +187,7 @@
 
     <!-- Top-left floating value bar -->
     <div id="valueBar">
-        V a r i a b l e s<br><br>
+        V a r i a b l e s<br>
         X: <span id="valX1"></span><br>
         <!-- X2: <span id="valX2"></span><br> -->
         Y: <span id="valY"></span><br>
@@ -197,14 +196,62 @@
         N: <span id="valNQ"></span><span id="valNQQ"></span><span id="valNQQQ"></span><span id="valNQQQQ"></span><br>
         M: <span id="valMQ"></span><span id="valMQQ"></span><span id="valMQQQ"></span><span id="valMQQQQ"></span><br>
         <!-- S: <span id="valS"></span><br> -->
-        S (3°) : <span id="valT"></span><br>
+        S: <span id="valT"></span><br>
         K: <span id="valK"></span><br>
         L: <span id="valL"></span><br>
-
+        
         
     </div>
 
-<!--     <p class"par">All Rights reserved to ME @(Deep) 2025</p><br> -->
+           <!-- Calculator Icon -->
+    <div id="calculatorIcon" class="calculator-icon" title="Open Calculator">
+        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M19 3H5C3.89543 3 3 3.89543 3 5V19C3 20.1046 3.89543 21 5 21H19C20.1046 21 21 20.1046 21 19V5C21 3.89543 20.1046 3 19 3ZM5 5H19V19H5V5Z" fill="currentColor"/>
+            <path d="M7 17H17V19H7V17Z" fill="currentColor"/>
+            <path d="M7 7H9V9H7V7Z" fill="currentColor"/>
+            <path d="M7 11H9V13H7V11Z" fill="currentColor"/>
+            <path d="M11 7H13V9H11V7Z" fill="currentColor"/>
+            <path d="M11 11H13V13H11V11Z" fill="currentColor"/>
+            <path d="M15 7H17V9H15V7Z" fill="currentColor"/>
+            <path d="M15 11H17V13H15V11Z" fill="currentColor"/>
+        </svg>
+    </div>
+
+    <!-- Calculator Popup -->
+    <div id="calculatorModal" class="calculator-modal">
+        <div class="calculator-content">
+            <div class="calculator-display-container">
+                <input type="text" id="calculatorDisplay" class="calculator-display" value="0" readonly>
+            </div>
+            <div class="calculator-buttons">
+                <button class="calc-button clear" data-action="clear">C</button>
+                <button class="calc-button operator" data-action="divide">/</button>
+                <button class="calc-button operator" data-action="multiply">*</button>
+                <button class="calc-button operator" data-action="subtract">-</button>
+
+                <button class="calc-button number" data-value="7">7</button>
+                <button class="calc-button number" data-value="8">8</button>
+                <button class="calc-button number" data-value="9">9</button>
+                <button class="calc-button operator" data-action="add">+</button>
+
+                <button class="calc-button number" data-value="4">4</button>
+                <button class="calc-button number" data-value="5">5</button>
+                <button class="calc-button number" data-value="6">6</button>
+                <button class="calc-button equals" data-action="calculate">=</button>
+
+                <button class="calc-button number" data-value="1">1</button>
+                <button class="calc-button number" data-value="2">2</button>
+                <button class="calc-button number" data-value="3">3</button>
+                <button class="calc-button decimal" data-value=".">.</button>
+
+                <button class="calc-button number zero" data-value="0">0</button>
+                <!-- <button class="calc-button save" data-action="save">Save</button> -->
+            </div>
+            <button class="calc-button close-modal" data-action="close">Close</button>
+        </div>
+    </div>
+
+
     <script src="scriptq.js"></script>
 </body>
 

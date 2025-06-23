@@ -200,3 +200,252 @@ function updateValueBar(id, value) {
     display.textContent = value || '';
   }
 }
+
+// Get all input boxes that need auto-shifting
+const inputBoxes = document.querySelectorAll('.input-box');
+const inputBoxes1 = document.querySelectorAll('.input-box1'); // For the marks input
+
+// Combine all relevant input boxes into a single array
+const allInputBoxes = [...inputBoxes, ...inputBoxes1];
+
+// Function to handle input and shift focus
+function handleInputShift(event) {
+    const currentInput = event.target;
+    // Check if the input box has a maxlength of 1 (for single character inputs)
+    // or if it's the specific 'mark' input which has a maxlength of 3 but we still want to shift
+    const isSingleCharInput = currentInput.maxLength === 1;
+    const isMarkInput = currentInput.id === 'mark';
+
+    // Only shift focus if a character has been entered and it's a single character input,
+    // or if it's the 'mark' input and it's not full yet
+    if ((isSingleCharInput && currentInput.value.length === 1) || (isMarkInput && currentInput.value.length > 0 && currentInput.value.length < currentInput.maxLength)) {
+        // Find the index of the current input box in the combined array
+        const currentIndex = allInputBoxes.indexOf(currentInput);
+
+        // If there's a next input box, focus on it
+        if (currentIndex < allInputBoxes.length - 1) {
+            allInputBoxes[currentIndex + 1].focus();
+        }
+    }
+}
+
+// Attach the event listener to each relevant input box
+allInputBoxes.forEach(input => {
+    input.addEventListener('input', handleInputShift);
+});
+
+// Optional: Add a feature to allow backspace to go to the previous input box
+function handleKeydownShift(event) {
+    const currentInput = event.target;
+    if (event.key === 'Backspace' && currentInput.value.length === 0) {
+        const currentIndex = allInputBoxes.indexOf(currentInput);
+        if (currentIndex > 0) {
+            allInputBoxes[currentIndex - 1].focus();
+        }
+    }
+}
+
+// Attach the keydown event listener for backspace functionality
+allInputBoxes.forEach(input => {
+    input.addEventListener('keydown', handleKeydownShift);
+});
+
+class Calculator {
+            constructor() {
+                this.display = document.getElementById('calculatorDisplay');
+                this.modal = document.getElementById('calculatorModal');
+                this.icon = document.getElementById('calculatorIcon');
+                
+                this.currentInput = '0';
+                this.previousInput = '';
+                this.operator = '';
+                this.waitingForOperand = false;
+                
+                this.init();
+            }
+            
+            init() {
+                // Event listeners
+                this.icon.addEventListener('click', () => this.openCalculator());
+                this.modal.addEventListener('click', (e) => {
+                    if (e.target === this.modal) this.closeCalculator();
+                });
+                
+                // Button event listeners
+                document.querySelectorAll('.calc-button').forEach(button => {
+                    button.addEventListener('click', (e) => this.handleButtonClick(e));
+                });
+                
+                // Keyboard support
+                document.addEventListener('keydown', (e) => this.handleKeydown(e));
+                
+                this.updateDisplay();
+            }
+            
+            openCalculator() {
+                this.modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+            
+            closeCalculator() {
+                this.modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+            
+            handleButtonClick(e) {
+                const button = e.target;
+                const action = button.dataset.action;
+                const value = button.dataset.value;
+                
+                if (action) {
+                    this.handleAction(action);
+                } else if (value !== undefined) {
+                    this.inputValue(value);
+                }
+            }
+            
+            handleKeydown(e) {
+                if (!this.modal.classList.contains('active')) return;
+                
+                e.preventDefault();
+                
+                if (e.key >= '0' && e.key <= '9') {
+                    this.inputValue(e.key);
+                } else if (e.key === '.') {
+                    this.inputValue('.');
+                } else if (e.key === '+') {
+                    this.handleAction('add');
+                } else if (e.key === '-') {
+                    this.handleAction('subtract');
+                } else if (e.key === '*') {
+                    this.handleAction('multiply');
+                } else if (e.key === '/') {
+                    this.handleAction('divide');
+                } else if (e.key === 'Enter' || e.key === '=') {
+                    this.handleAction('calculate');
+                } else if (e.key === 'Escape') {
+                    this.closeCalculator();
+                } else if (e.key === 'Backspace') {
+                    this.handleAction('clear');
+                }
+            }
+            
+            inputValue(value) {
+                if (value === '.' && this.currentInput.includes('.')) {
+                    return;
+                }
+                
+                if (this.waitingForOperand) {
+                    this.currentInput = value === '.' ? '0.' : value;
+                    this.waitingForOperand = false;
+                } else {
+                    this.currentInput = this.currentInput === '0' ? (value === '.' ? '0.' : value) : this.currentInput + value;
+                }
+                
+                this.updateDisplay();
+            }
+            
+            handleAction(action) {
+                switch (action) {
+                    case 'clear':
+                        this.clear();
+                        break;
+                    case 'calculate':
+                        this.calculate();
+                        break;
+                    case 'add':
+                    case 'subtract':
+                    case 'multiply':
+                    case 'divide':
+                        this.setOperator(action);
+                        break;
+                    case 'save':
+                        this.saveResult();
+                        break;
+                    case 'close':
+                        this.closeCalculator();
+                        break;
+                }
+            }
+            
+            clear() {
+                this.currentInput = '0';
+                this.previousInput = '';
+                this.operator = '';
+                this.waitingForOperand = false;
+                this.updateDisplay();
+            }
+            
+            setOperator(nextOperator) {
+                if (this.previousInput === '') {
+                    this.previousInput = this.currentInput;
+                } else if (this.operator) {
+                    const result = this.performCalculation();
+                    this.currentInput = String(result);
+                    this.previousInput = this.currentInput;
+                }
+                
+                this.waitingForOperand = true;
+                this.operator = nextOperator;
+                this.updateDisplay();
+            }
+            
+            calculate() {
+                if (this.previousInput !== '' && this.operator && !this.waitingForOperand) {
+                    const result = this.performCalculation();
+                    this.currentInput = String(result);
+                    this.previousInput = '';
+                    this.operator = '';
+                    this.waitingForOperand = true;
+                    this.updateDisplay();
+                }
+            }
+            
+            performCalculation() {
+                const prev = parseFloat(this.previousInput);
+                const current = parseFloat(this.currentInput);
+                
+                if (isNaN(prev) || isNaN(current)) return current;
+                
+                switch (this.operator) {
+                    case 'add':
+                        return prev + current;
+                    case 'subtract':
+                        return prev - current;
+                    case 'multiply':
+                        return prev * current;
+                    case 'divide':
+                        return current !== 0 ? prev / current : 0;
+                    default:
+                        return current;
+                }
+            }
+            
+            saveResult() {
+                // You can implement save functionality here
+                // For now, we'll just copy to clipboard
+                navigator.clipboard.writeText(this.currentInput).then(() => {
+                    // Visual feedback
+                    const saveButton = document.querySelector('[data-action="save"]');
+                    const originalText = saveButton.textContent;
+                    saveButton.textContent = 'Saved!';
+                    saveButton.style.background = 'linear-gradient(145deg, #20c997, #17a085)';
+                    
+                    setTimeout(() => {
+                        saveButton.textContent = originalText;
+                        saveButton.style.background = '';
+                    }, 1000);
+                }).catch(() => {
+                    console.log('Could not save to clipboard');
+                });
+            }
+            
+            updateDisplay() {
+                this.display.value = this.currentInput;
+            }
+        }
+        
+        // Initialize calculator when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new Calculator();
+        });
