@@ -45,8 +45,9 @@
     setInterval(moveButton, 50); // Lower value = faster
 
     function q1(){
-      window.location.href = "Jee-ADV/q1.html";
+      window.location.href = "q1.html";
     }
+
 
 
 
